@@ -20,7 +20,7 @@
                     <select id="categoria" name="categoria" class="form-control">
                         <option value="">Selecione</option>
                         <?php foreach ($this->categorias as $categoria): ?>
-                            <option value="<?php echo $categoria['cod'] ?>"><?php echo $categoria['nome'] ?></option>
+                            <option value="<?php echo $categoria['cod'] ?>" <?php echo $this->request->get->offsetGet('categoria') == $categoria['cod'] ? 'selected' : '' ?>><?php echo $categoria['nome'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -60,7 +60,7 @@
             </thead>
             <tbody>
                 <?php foreach ($this->paginator->rows as $row): ?>
-                    <tr>
+                    <tr <?php echo $row['status'] == 1 ? "class='success'" : '' ?>>
                         <td class="categoria-edit text-center" data-cod="<?php echo $row['cod'] ?>" data-categoria="<?php echo $row['categoria'] ?>" data-edit="hidden"><?php echo $row['categoria_desc'] ?></td>
                         <td class="descricao-edit" data-cod="<?php echo $row['cod'] ?>" data-edit="hidden"><?php echo $row['descricao'] ?></td>
                         <td>
@@ -94,6 +94,8 @@
                 <tr class="text-center">
                     <td colspan="4">
                         <?php echo $this->paginator ?>
+                        <br class="clearfix" />
+                        <div class="bg-info img-rounded col-sm-2 col-sm-offset-5">Total: <?php echo $this->paginator->totalItems ?></div>
                     </td>
                 </tr>
             </tfoot>

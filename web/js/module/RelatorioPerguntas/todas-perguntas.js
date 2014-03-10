@@ -37,6 +37,17 @@ $(document).ready(function() {
         }, 'json');
     });
     
+    $(document).on('keyup', '.categoria-edit .form-control', function(e) {
+        if (e.keyCode == 27) {
+            var $td = $(this).parents('.categoria-edit');
+            var desc = $td.find('.form-control option:selected').text();
+            $td.html(desc);
+            $td.data('edit', 'hidden');
+        } else if(e.keyCode == 13) {
+            $(this).siblings('.input-group-btn').find('.btn-save-categoria').trigger('click');
+        }
+    });
+    
     // Descrição
     $(document).on('click', '.btn-save-descricao', function() {
         var $td = $(this).parents('.descricao-edit');
@@ -116,11 +127,13 @@ $(document).ready(function() {
                 $that.addClass('btn-success');
                 $that.children().removeClass('glyphicon-thumbs-down');
                 $that.children().addClass('glyphicon-thumbs-up');
+                $that.parents('tr').removeClass('success');
             } else {
                 $that.removeClass('btn-success');
                 $that.addClass('btn-danger');
                 $that.children().removeClass('glyphicon-thumbs-up');
                 $that.children().addClass('glyphicon-thumbs-down');
+                $that.parents('tr').addClass('success');
             }
         }, 'json');
         console.log( $(this).data('cod'), $(this).data('status') );

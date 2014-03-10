@@ -45,6 +45,9 @@ HTML;
                 $totalPages++;
             }
             $this->totalPages = $totalPages;
+            if($this->active > $this->totalPages) {
+                $this->active = $this->totalPages;
+            }
 
             $activeMiddle = $this->numItems % 2;
 
@@ -62,13 +65,13 @@ HTML;
                 if ($this->active - $itemsPerSide <= 0) {
                     $i = $this->active - $itemsPerSide;
                     while ($i <= $this->active) {
-                        if ($i > 0 && $itemsAdded < $this->numItems) {
+                        if ($i > 0 && $itemsAdded < $this->numItems && $i <= $this->totalPages) {
                             $this->items[] = $i;
                             $itemsAdded++;
                         }
                         $i++;
                     }
-                    while ($itemsAdded < $this->numItems) {
+                    while ($itemsAdded < $this->numItems && $i <= $this->totalPages) {
                         $this->items[] = $i;
                         $itemsAdded++;
                         $i++;
@@ -83,7 +86,7 @@ HTML;
                         }
                         $i--;
                     }
-                    while ($itemsAdded < $this->numItems) {
+                    while ($itemsAdded < $this->numItems && $i <= $this->totalPages) {
                         $this->items[] = $i;
                         $itemsAdded++;
                         $i--;
