@@ -13,8 +13,8 @@ class Paginator {
     public $items = array();
     public $formSelector = 'form';
     public $criteria = array();
-    public $left = '<a>&laquo;</a>';
-    public $right = '<a>&raquo;</a>';
+    public $left = '&laquo;';
+    public $right = '&raquo;';
 
     public function __construct($formSelector = 'form', $criteria = array()) {
         $this->rowsPerPage = \Kuestions\System::$config['system']['view']['datagrid']['rowsPerPage'];
@@ -104,27 +104,19 @@ HTML;
         $items = '';
 
         $leftDisabled = $this->active <= 1 ? "class='disabled'" : '';
-        $items.= "<li {$leftDisabled}>{$this->left}</li>";
+        $leftPage = $this->active - 1 > 0 ? $this->active - 1 : 1;
+        $items.= "<li {$leftDisabled}><a data-page='{$leftPage}' data-form='{$this->formSelector}'>{$this->left}</a></li>";
 
         foreach ($this->items as $page) {
             $active = $page == $this->active ? "class='active'" : '';
-            $items.= "<li {$active}><a data-form='{$this->formSelector}'>{$page}</a></li>";
+            $items.= "<li {$active}><a data-page='{$page}' data-form='{$this->formSelector}'>{$page}</a></li>";
         }
 
         $rightDisabled = $this->active == $this->totalPages ? "class='disabled'" : '';
-        $items.= "<li {$rightDisabled}>{$this->right}</li>";
+        $rightPage = $this->active + 1 < $this->totalPages ? $this->active + 1 : $this->totalPages;
+        $items.= "<li {$rightDisabled}><a data-page='{$rightPage}' data-form='{$this->formSelector}'>{$this->right}</a></li>";
 
         return sprintf($html, $items);
     }
 
 }
-
-/*
-<li class="disabled">{$this->left}</li>
-<li class="active"><a>1</a></li>
-<li><a>2</a></li>
-<li><a>3</a></li>
-<li><a>4</a></li>
-<li><a>5</a></li>
-<li>{$this->left}</li>
- */
