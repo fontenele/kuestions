@@ -17,12 +17,14 @@ class Controller {
      */
     public $request;
 
-    public function __construct($action) {
+    public function __construct($action, $request) {
         $arrClass = \explode('\\', \get_class($this));
         $this->action = $action;
 
         $templace = \strpos($action, '-') === false ? \Kuestions\Lib\View\Helper\String::camelToDash($action) : $action;
-        $this->view = new \Kuestions\Lib\View\Html("view/{$arrClass[2]}/{$templace}.phtml");
+        $this->view = new \Kuestions\Lib\View\Html("view/{$arrClass[2]}/{$templace}.phtml", array('request' => $request));
+        
+        $this->request = $request;
 
         $this->init();
     }

@@ -15,8 +15,11 @@ Class RelatorioPerguntas extends Controller {
             $serviceCategorias = new \Kuestions\Service\Categorias();
             $this->view->categorias = $serviceCategorias->fetchAll();
             
+            $paginator = new \Kuestions\Lib\View\Helper\Paginator('#fm-perguntas', $this->request->get->getArrayCopy());
+            
             $servicePerguntas = new \Kuestions\Service\Perguntas();
-            $this->view->listagem = $servicePerguntas->fetchAll();
+            $paginator->setRows($servicePerguntas->fetchAll($paginator));
+            $this->view->paginator = $paginator;
             
             return $this->view;
         } catch (\Exception $ex) {

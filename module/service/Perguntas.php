@@ -4,9 +4,9 @@ namespace Kuestions\Service;
 
 class Perguntas {
     
-    public function fetchAll() {
+    public function fetchAll($paginator) {
         $model = new \Kuestions\Model\Perguntas();
-        return $model->fetchAll();
+        return $model->fetchAll($paginator);
     }
 
     public function save(&$row) {

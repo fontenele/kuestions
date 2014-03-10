@@ -117,7 +117,13 @@ Class System {
                 $uri[1] = $urlQuery[0];
                 $request->setQuery(urldecode($urlQuery[1]));
             }
-
+            
+            for($i = 2; $i < count($uri); $i = $i + 2) {
+                if(isset($uri[$i + 1])) {
+                    $request->get->offsetSet($uri[$i], $uri[$i + 1]);
+                }
+            }
+            
             $action = Lib\View\Helper\String::dashToCamel($uri[1]);
         }
 
@@ -150,8 +156,7 @@ Class System {
         $controller = '\\' . $controller;
 
         // Instance controller
-        $obj = new $controller($action);
-        $obj->request = $request;
+        $obj = new $controller($action, $request);
 
         // Call action
         $view = $obj->$action($request);

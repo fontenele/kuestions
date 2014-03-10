@@ -6,12 +6,36 @@ class Perguntas {
 
     public $sequence = 'perguntas_cod_seq';
 
-    public function fetchAll() {
+    /**
+     * 
+     * @param \Kuestions\Lib\View\Helper\Paginator $paginator
+     * @return type
+     */
+    public function fetchAll($paginator) {
         try {
-            $rowsPerPage = \Kuestions\System::$config['system']['view']['datagrid']['rowsPerPage'];
+            $where = 'WHERE 1 = 1';
+            if (count($paginator->criteria)) {
+                foreach ($paginator->criteria as $criteria => $value) {
+                    if (trim($value)) {
+                        if ($criteria == 'descricao') {
+                            $where.= " AND p.{$criteria} LIKE '%{$value}%'";
+                        } else {
+                            $where.= " AND p.{$criteria} = {$value}";
+                        }
+                    }
+                }
+            }
+
+            $rowsPerPage = $paginator->rowPerPage;
+            $offset = 0;
+
+            if ($paginator->active > 1) {
+                $offset = $rowsPerPage * ($paginator->active - 1);
+            }
 
             $dml = <<<DML
                     SELECT
+                        (SELECT count(1) FROM perguntas p {$where}) as total,
                         p.cod,
                         p.descricao,
                         p.alternativa1,
@@ -39,9 +63,9 @@ class Perguntas {
                         INNER JOIN alternativa a5 ON (a5.cod = p.alternativa5)
                         INNER JOIN alternativa c ON (c.cod = p.correta)
                         INNER JOIN categorias cat ON (cat.cod = p.categoria)
+                    {$where}
                     ORDER BY p.cod
-                    LIMIT {$rowsPerPage}
-                    OFFSET 0
+                    LIMIT {$rowsPerPage} OFFSET {$offset}
 DML;
             $stmt = \Kuestions\System::$db->prepare($dml);
             $stmt->execute();

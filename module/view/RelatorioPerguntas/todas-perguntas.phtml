@@ -12,7 +12,8 @@
 <div class="panel panel-default">
     <div class="panel-heading">Todas as Perguntas</div>
     <div class="panel-body">
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" id="fm-perguntas" role="form">
+            <?php echo $this->paginator->getInputHidden() ?>
             <div class="form-group">
                 <label for="categoria" class="col-sm-2 control-label">Categoria</label>
                 <div class="col-sm-4">
@@ -27,7 +28,7 @@
             <div class="form-group">
                 <label for="descricao" class="col-sm-2 control-label">Descrição</label>
                 <div class="col-sm-4">
-                    <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Descrição da Pergunta" />
+                    <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Descrição da Pergunta" value="<?php echo $this->request->get->offsetGet('descricao') ?>" />
                 </div>
             </div>
             <div class="form-group">
@@ -35,8 +36,8 @@
                 <div class="col-sm-4">
                     <select name="status" id="status" class="form-control">
                         <option value="">Selecione</option>
-                        <option value="1">Ativo</option>
-                        <option value="2">Inativo</option>
+                        <option value="1" <?php echo $this->request->get->offsetGet('status') == 1 ? 'selected' : '' ?>>Ativo</option>
+                        <option value="2" <?php echo $this->request->get->offsetGet('status') == 2 ? 'selected' : '' ?>>Inativo</option>
                     </select>
                 </div>
             </div>
@@ -58,7 +59,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($this->listagem as $row): ?>
+                <?php foreach ($this->paginator->rows as $row): ?>
                     <tr>
                         <td class="categoria-edit text-center" data-cod="<?php echo $row['cod'] ?>" data-categoria="<?php echo $row['categoria'] ?>" data-edit="hidden"><?php echo $row['categoria_desc'] ?></td>
                         <td class="descricao-edit" data-cod="<?php echo $row['cod'] ?>" data-edit="hidden"><?php echo $row['descricao'] ?></td>
@@ -92,16 +93,7 @@
             <tfoot>
                 <tr class="text-center">
                     <td colspan="4">
-                        <ul class="pagination">
-                            <li class="disabled"><a href="#">&laquo;</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
-
+                        <?php echo $this->paginator ?>
                     </td>
                 </tr>
             </tfoot>
