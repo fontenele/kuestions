@@ -64,15 +64,25 @@
                         <td class="descricao-edit" data-cod="<?php echo $row['cod'] ?>" data-edit="hidden"><?php echo $row['descricao'] ?></td>
                         <td>
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a class="alternativa-edit <?php echo $row['alternativa1'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa1'] ?>" data-edit="hidden"><?php echo $row['alternativa1_desc'] ?></a></li>
-                                <li><a class="alternativa-edit <?php echo $row['alternativa2'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa2'] ?>" data-edit="hidden"><?php echo $row['alternativa2_desc'] ?></a></li>
-                                <li><a class="alternativa-edit <?php echo $row['alternativa3'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa3'] ?>" data-edit="hidden"><?php echo $row['alternativa3_desc'] ?></a></li>
-                                <li><a class="alternativa-edit <?php echo $row['alternativa4'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa4'] ?>" data-edit="hidden"><?php echo $row['alternativa4_desc'] ?></a></li>
-                                <li><a class="alternativa-edit <?php echo $row['alternativa5'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa5'] ?>" data-edit="hidden"><?php echo $row['alternativa5_desc'] ?></a></li>
+                                <li>
+                                    <a class="alternativa-edit <?php echo $row['alternativa1'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa1'] ?>" data-edit="hidden"><?php echo $row['alternativa1_desc'] ?></a>
+                                </li>
+                                <li>
+                                    <a class="alternativa-edit <?php echo $row['alternativa2'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa2'] ?>" data-edit="hidden"><?php echo $row['alternativa2_desc'] ?></a>
+                                </li>
+                                <li>
+                                    <a class="alternativa-edit <?php echo $row['alternativa3'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa3'] ?>" data-edit="hidden"><?php echo $row['alternativa3_desc'] ?></a>
+                                </li>
+                                <li>
+                                    <a class="alternativa-edit <?php echo $row['alternativa4'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa4'] ?>" data-edit="hidden"><?php echo $row['alternativa4_desc'] ?></a>
+                                </li>
+                                <li>
+                                    <a class="alternativa-edit <?php echo $row['alternativa5'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa5'] ?>" data-edit="hidden"><?php echo $row['alternativa5_desc'] ?></a>
+                                </li>
                             </ul>
                         </td>
                         <td>
-                            <button class="btn-change-status btn btn-<?php echo $row['status'] == 2 ? 'success' : 'danger' ?>" data-cod="<?php echo $row['cod'] ?>">
+                            <button class="btn-change-status btn btn-<?php echo $row['status'] == 2 ? 'success' : 'danger' ?>" data-cod="<?php echo $row['cod'] ?>" data-status="<?php echo $row['status'] ?>">
                                 <span class="glyphicon glyphicon-thumbs-<?php echo $row['status'] == 2 ? 'up' : 'down' ?>"></span>
                             </button>
                         </td>

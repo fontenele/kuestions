@@ -105,6 +105,24 @@ $(document).ready(function() {
     
     // Alterar status
     $('.btn-change-status').on('click', function() {
-        console.log( $(this).data() );
+        var cod = $(this).data('cod');
+        var status = $(this).data('status') == '2' ? '1' : '2';
+        var $that = $(this);
+        
+        $.post('/perguntas/salvar-pergunta', {'cod': cod, 'status': status}, function(result, status) {
+            $that.data('status', result.status);
+            if(result.status == '2') {
+                $that.removeClass('btn-danger');
+                $that.addClass('btn-success');
+                $that.children().removeClass('glyphicon-thumbs-down');
+                $that.children().addClass('glyphicon-thumbs-up');
+            } else {
+                $that.removeClass('btn-success');
+                $that.addClass('btn-danger');
+                $that.children().removeClass('glyphicon-thumbs-up');
+                $that.children().addClass('glyphicon-thumbs-down');
+            }
+        }, 'json');
+        console.log( $(this).data('cod'), $(this).data('status') );
     });
 });
