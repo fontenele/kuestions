@@ -25,6 +25,13 @@ Class Main extends Controller {
                 $auth = $service->auth($this->request->post->offsetGet('email'), md5($this->request->post->offsetGet('senha')));
                 if ($auth['logged']) {
                     $session = new \Kuestions\Lib\System\Session('system');
+
+                    $gravatarUrl = 'http://www.gravatar.com/%s.php';
+                    $gravatar = \unserialize(\file_get_contents(sprintf($gravatarUrl, md5($this->request->post->offsetGet('email')))));
+                    if (is_array($gravatar) && isset($gravatar['entry'])) {
+                        $session->gravatar = $gravatar['entry'][0];
+                    }
+
                     $session->usuario = $this->request->post->offsetGet('email');
                     \Kuestions\Lib\View\Helper\Messenger::success('Bem vindo ' . $this->request->post->offsetGet('email'));
                     $this->redirect('main/index');
@@ -42,6 +49,26 @@ Class Main extends Controller {
     public function tryLogin() {
         try {
             xd($this->request);
+            return $this->view;
+        } catch (\Exception $ex) {
+            xd($ex);
+        }
+    }
+
+    public function logout() {
+        try {
+            session_destroy();
+            $this->redirect('main/index');
+        } catch (\Exception $ex) {
+            xd($ex);
+        }
+    }
+    
+    public function perfil() {
+        try {
+            $session = new \Kuestions\Lib\System\Session('system');
+            $this->view->gravatar = $session->gravatar;
+            $this->view->usuario = $session->usuario;
             return $this->view;
         } catch (\Exception $ex) {
             xd($ex);
