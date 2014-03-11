@@ -1,9 +1,9 @@
 <?php
 
 require_once('fdebug.php');
+require_once('System/ArrayObject.php');
 require_once('System/Session.php');
 require_once('System/Dir.php');
-require_once('System/ArrayObject.php');
 require_once('Http/Request.php');
 require_once('Http/Curl.php');
 require_once('Module/Controller.php');

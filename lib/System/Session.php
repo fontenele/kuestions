@@ -2,7 +2,7 @@
 
 namespace Kuestions\Lib\System;
 
-class Session extends \ArrayObject {
+class Session extends ArrayObject {
 
     public $container;
 

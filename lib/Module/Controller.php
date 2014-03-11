@@ -33,7 +33,7 @@ class Controller {
         
     }
     
-    public function redirect($path) {
+    public function redirect($path = null) {
         $path = \Kuestions\System::$basePath . $path;
         header("Location: {$path}");
         exit;

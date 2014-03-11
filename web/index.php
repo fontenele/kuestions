@@ -23,6 +23,7 @@ Class System {
      * @var Lib\Database\Pdo
      */
     public static $db;
+    public static $logged = false;
 
     /**
      * @var string
@@ -35,7 +36,10 @@ Class System {
         self::loadLibs();
         self::loadConfigs();
         self::loadDatabase();
-        self::run();
+        $valid = self::acl();
+        if ($valid) {
+            self::run();
+        }
     }
 
     public static function bootLoader() {
@@ -104,12 +108,23 @@ Class System {
         self::$db = new Lib\Database\Pdo(self::$config['db']);
     }
 
-    public static function run() {
+    public static function acl() {
+        $session = new Lib\System\Session('system');
+        if (!$session->offsetExists('usuario')) {
+            $defaults = self::$config['system']['module']['defaults'];
+            self::$logged = false;
+            self::run($defaults['controllerAuth'], $defaults['actionAuth']);
+            return false;
+        }
+        self::$logged = true;
+        return true;
+    }
+
+    public static function run($controller = null, $action = null) {
         $defaults = self::$config['system']['module']['defaults'];
         $request = new Lib\Http\Request();
-        $controller = $action = '';
 
-        if ($_SERVER['REQUEST_URI'] && $_SERVER['REQUEST_URI'] != '/') {
+        if ((!$controller && !$action) && $_SERVER['REQUEST_URI'] && $_SERVER['REQUEST_URI'] != '/') {
             $uri = \explode('/', \substr($_SERVER['REQUEST_URI'], 1));
             $controller = 'Kuestions\Controller\\' . \ucfirst(Lib\View\Helper\String::dashToCamel($uri[0]));
             if (\strpos($uri[1], '?')) {
@@ -117,13 +132,13 @@ Class System {
                 $uri[1] = $urlQuery[0];
                 $request->setQuery(urldecode($urlQuery[1]));
             }
-            
-            for($i = 2; $i < count($uri); $i = $i + 2) {
-                if(isset($uri[$i + 1])) {
+
+            for ($i = 2; $i < count($uri); $i = $i + 2) {
+                if (isset($uri[$i + 1])) {
                     $request->get->offsetSet($uri[$i], $uri[$i + 1]);
                 }
             }
-            
+
             $action = Lib\View\Helper\String::dashToCamel($uri[1]);
         }
 
@@ -134,6 +149,7 @@ Class System {
         self::$layout = new \Kuestions\Lib\View\Html('layout/' . self::$config['system']['view']['layout']);
         self::$layout->success = Lib\View\Helper\Messenger::getSuccess();
         self::$layout->error = Lib\View\Helper\Messenger::getError();
+        self::$layout->userLogged = self::$logged;
 
         $arrController = explode('\\', $controller);
         $actionDashed = Lib\View\Helper\String::camelToDash($action);

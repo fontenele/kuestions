@@ -5,9 +5,10 @@ return array(
         'module' => array(
             'defaults' => array(
                 'controller' => 'Kuestions\Controller\Main',
-                'action' => 'index'
+                'action' => 'index',
+                'controllerAuth' => 'Kuestions\Controller\Main',
+                'actionAuth' => 'login'
             )
-            
         ),
         'view' => array(
             'layout' => 'layout.phtml',
