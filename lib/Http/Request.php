@@ -26,10 +26,18 @@ class Request {
      */
     public $query;
 
+    /**
+     * @var boolean
+     */
+    public $isAjax = false;
+
     public function __construct() {
         $this->get = new ArrayObject($_GET);
         $this->post = new ArrayObject($_POST);
         $this->files = new ArrayObject($_FILES);
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND \strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            $this->isAjax = true;
+        }
     }
 
     public function setQuery($queryString) {

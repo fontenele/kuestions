@@ -16,7 +16,12 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Painel <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/main/index"><span class="glyphicon glyphicon-th"></span> Painel Administrativo</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">Categorias</li>
                             <li><a href="/categorias/nova-categoria"><span class="glyphicon glyphicon-plus-sign"></span> Nova Categoria</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">Perguntas</li>
+                            <li><a href="/perguntas/nova-pergunta"><span class="glyphicon glyphicon-plus-sign"></span> Nova Pergunta</a></li>
                         </ul>
                     </li>
                     <li class="<?php echo $this->topItemAtual == 'relatorios' ? 'active' : '' ?> dropdown">
@@ -31,7 +36,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Perfil <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/main/perfil">Ver Perfil</a></li>
-                            <li class="divider"></li>
+                            <li role="presentation" class="divider"></li>
                             <li><a href="/main/logout">Sair</a></li>
                         </ul>
                     </li>

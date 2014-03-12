@@ -80,6 +80,8 @@ DML;
             if (isset($row['cod']) && $row['cod']) {
                 return $this->update($row);
             } else {
+                // Nova pergunta deve ser definida com status = 2 (Inativo)
+                $row['status'] = 2;
                 return $this->insert($row);
             }
         } catch (\Exception $ex) {
@@ -91,12 +93,14 @@ DML;
         try {
             $dml = <<<DML
                     INSERT INTO perguntas
-                        (descricao, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, correta, tags)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        (descricao, categoria, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, correta, tags, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 DML;
             $stmt = \Kuestions\System::$db->prepare($dml);
+            
             $salvou = $stmt->execute(array(
                 $row['descricao'],
+                $row['categoria'],
                 $row['alternativa1'],
                 $row['alternativa2'],
                 $row['alternativa3'],
@@ -104,6 +108,7 @@ DML;
                 $row['alternativa5'],
                 $row['correta'],
                 $row['tags'],
+                $row['status']
             ));
 
             if ($salvou) {
@@ -112,7 +117,7 @@ DML;
 
             return $salvou;
         } catch (\Exception $ex) {
-            xd($ex);
+            xd($ex->getMessage());
         }
     }
 
