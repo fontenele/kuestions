@@ -11,7 +11,7 @@ class Categorias {
         
         foreach($result as $row) {
             if($row['pai']) {
-                $categorias[$row['pai']][$row['cod']] = $row;
+                $categorias[$row['pai']]['filhos'][$row['cod']] = $row;
             } else {
                 $categorias[$row['cod']] = $row;
             }
