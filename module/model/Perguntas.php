@@ -53,6 +53,7 @@ class Perguntas {
                         p.tags,
                         p.categoria,
                         cat.nome as categoria_desc,
+                        p.nivel,
                         p.status
                     FROM
                         perguntas p
@@ -93,8 +94,8 @@ DML;
         try {
             $dml = <<<DML
                     INSERT INTO perguntas
-                        (descricao, categoria, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, correta, tags, status)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (descricao, categoria, alternativa1, alternativa2, alternativa3, alternativa4, alternativa5, correta, tags, nivel, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 DML;
             $stmt = \Kuestions\System::$db->prepare($dml);
             
@@ -108,6 +109,7 @@ DML;
                 $row['alternativa5'],
                 $row['correta'],
                 $row['tags'],
+                $row['nivel'],
                 $row['status']
             ));
 

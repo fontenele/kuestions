@@ -52,9 +52,10 @@
         <table class="table table-bordered table-condensed table-hover table-responsive table-striped">
             <thead>
                 <tr>
-                    <th width="15%">Categoria</th>
-                    <th width="45%">Pergunta</th>
+                    <th width="15%" class="text-center">Categoria</th>
+                    <th width="35%">Pergunta</th>
                     <th width="35%">Alternativas</th>
+                    <th width="10%" class="text-center">Nível</th>
                     <th width="5%"></th>
                 </tr>
             </thead>
@@ -81,6 +82,12 @@
                                     <a class="alternativa-edit <?php echo $row['alternativa5'] == $row['correta'] ? 'bg-success' : '' ?>" data-cod="<?php echo $row['alternativa5'] ?>" data-edit="hidden"><?php echo $row['alternativa5_desc'] ?></a>
                                 </li>
                             </ul>
+                        </td>
+                        <td class="text-center">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <span class="glyphicon glyphicon-star<?php echo $i <= $row['nivel'] ? '' : '-empty' ?> nivel" data-nivel="<?php echo $i ?>" data-cod="<?php echo $row['cod'] ?>"></span>
+                            <?php endfor; ?>
+                            <input type="hidden" class="sr-only" name="nivel" />
                         </td>
                         <td>
                             <button class="btn-change-status btn btn-<?php echo $row['status'] == 2 ? 'success' : 'danger' ?>" data-cod="<?php echo $row['cod'] ?>" data-status="<?php echo $row['status'] ?>">

@@ -6,7 +6,7 @@ TodasPerguntas = {
 }
 
 $(document).ready(function() {
-    
+
     // Categoria
     $('.categoria-edit').on('click', function() {
         if ($(this).data('edit') == 'hidden') {
@@ -15,15 +15,15 @@ $(document).ready(function() {
             var $template = $('#categoria-template').clone();
             $template.removeAttr('id');
             $template.removeClass('hidden');
-            
+
             $(this).html($template);
             $(this).data('edit', 'show');
-            
+
             $(this).find('.form-control').val(categoria);
             $(this).find('.form-control').focus();
         }
     });
-    
+
     $(document).on('click', '.btn-save-categoria', function() {
         var $td = $(this).parents('.categoria-edit');
         var cod = $td.data('cod');
@@ -36,18 +36,18 @@ $(document).ready(function() {
             $td.data('edit', 'hidden');
         }, 'json');
     });
-    
+
     $(document).on('keyup', '.categoria-edit .form-control', function(e) {
         if (e.keyCode == 27) {
             var $td = $(this).parents('.categoria-edit');
             var desc = $td.find('.form-control option:selected').text();
             $td.html(desc);
             $td.data('edit', 'hidden');
-        } else if(e.keyCode == 13) {
+        } else if (e.keyCode == 13) {
             $(this).siblings('.input-group-btn').find('.btn-save-categoria').trigger('click');
         }
     });
-    
+
     // Descrição
     $(document).on('click', '.btn-save-descricao', function() {
         var $td = $(this).parents('.descricao-edit');
@@ -65,7 +65,7 @@ $(document).ready(function() {
             var $td = $(this).parents('.descricao-edit');
             $td.html($(this).val());
             $td.data('edit', 'hidden');
-        } else if(e.keyCode == 13) {
+        } else if (e.keyCode == 13) {
             $(this).siblings('.input-group-btn').find('.btn-save-descricao').trigger('click');
         }
     });
@@ -80,7 +80,7 @@ $(document).ready(function() {
             $(this).find(':input[type=text]').focus();
         }
     });
-    
+
     // Alternativa
     $(document).on('click', '.btn-save-alternativa', function() {
         var $td = $(this).parents('.alternativa-edit');
@@ -92,17 +92,17 @@ $(document).ready(function() {
             $td.data('edit', 'hidden');
         }, 'json');
     });
-    
+
     $(document).on('keyup', '.alternativa-edit :input[type=text]', function(e) {
         if (e.keyCode == 27) {
             var $td = $(this).parents('.alternativa-edit');
             $td.html($(this).val());
             $td.data('edit', 'hidden');
-        } else if(e.keyCode == 13) {
+        } else if (e.keyCode == 13) {
             $(this).siblings('.input-group-btn').find('.btn-save-alternativa').trigger('click');
         }
     });
-    
+
     $('.alternativa-edit').on('click', function() {
         if ($(this).data('edit') == 'hidden') {
             var desc = $(this).text();
@@ -113,16 +113,16 @@ $(document).ready(function() {
             $(this).find(':input[type=text]').focus();
         }
     });
-    
+
     // Alterar status
     $('.btn-change-status').on('click', function() {
         var cod = $(this).data('cod');
         var status = $(this).data('status') == '2' ? '1' : '2';
         var $that = $(this);
-        
+
         $.post('/perguntas/salvar-pergunta', {'cod': cod, 'status': status}, function(result, status) {
             $that.data('status', result.status);
-            if(result.status == '2') {
+            if (result.status == '2') {
                 $that.removeClass('btn-danger');
                 $that.addClass('btn-success');
                 $that.children().removeClass('glyphicon-thumbs-down');
@@ -136,6 +136,33 @@ $(document).ready(function() {
                 $that.parents('tr').addClass('success');
             }
         }, 'json');
-        console.log( $(this).data('cod'), $(this).data('status') );
+        console.log($(this).data('cod'), $(this).data('status'));
+    });
+
+    $('.nivel').on('click', function() {
+        var cod = $(this).data('cod');
+        var nivel = $(this).data('nivel');
+        if (nivel == $(this).siblings(':input').val()) {
+            $(this).parent().find('.nivel').removeClass('glyphicon-star');
+            $(this).parent().find('.nivel').addClass('glyphicon-star-empty');
+            $(this).siblings(':input').val('');
+            nivel = null;
+        } else {
+            $(this).parent().find('.nivel').removeClass('glyphicon-star');
+            $(this).parent().find('.nivel').addClass('glyphicon-star-empty');
+            $.each($(this).parent().find('.nivel'), function(i, item) {
+                var _nivel = i + 1;
+                $(item).removeClass('glyphicon-star-empty');
+                $(item).addClass('glyphicon-star');
+                if (_nivel == nivel) {
+                    return false;
+                }
+            });
+            $(this).siblings(':input').val(nivel);
+        }
+
+        $.post('/perguntas/salvar-pergunta', {'cod': cod, 'nivel': nivel}, function(result, status) {
+
+        });
     });
 });

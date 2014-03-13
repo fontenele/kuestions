@@ -4,16 +4,59 @@ namespace Kuestions\Lib\View\Helper;
 
 class Paginator {
 
+    /**
+     * @var integer
+     */
     public $rowPerPage = 15;
+
+    /**
+     * @var integer
+     */
     public $active = 1;
+
+    /**
+     * @var integer
+     */
     public $totalItems = 0;
+
+    /**
+     * @var integer
+     */
     public $totalPages = 0;
+
+    /**
+     * @var integer
+     */
     public $numItems = 5;
+
+    /**
+     * @var array
+     */
     public $rows = array();
+
+    /**
+     * @var array
+     */
     public $items = array();
+
+    /**
+     * @var string
+     */
     public $formSelector = 'form';
+
+    /**
+     * @var array
+     */
     public $criteria = array();
+
+    /**
+     * @var string
+     */
     public $left = '&laquo;';
+
+    /**
+     * @var string
+     */
     public $right = '&raquo;';
 
     public function __construct($formSelector = 'form', $criteria = array()) {
@@ -45,7 +88,7 @@ HTML;
                 $totalPages++;
             }
             $this->totalPages = $totalPages;
-            if($this->active > $this->totalPages) {
+            if ($this->active > $this->totalPages) {
                 $this->active = $this->totalPages;
             }
 
