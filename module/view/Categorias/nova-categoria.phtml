@@ -9,7 +9,11 @@
                     <select name="pai" class="form-control" required>
                         <option value="0">Nenhum</option>
                         <?php foreach ($this->categorias as $categoria): ?>
-                            <option value="<?php echo $categoria['cod'] ?>"><?php echo $categoria['nome'] ?></option>
+                            <option value="" class="divider disabled" disabled></option>
+                            <option value="<?php echo $categoria['cod'] ?>">&nbsp;<?php echo $categoria['nome'] ?></option>
+                            <?php foreach ($categoria['filhos'] as $filho): ?>
+                                <option value="" class="disabled" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $filho['nome'] ?></option>
+                            <?php endforeach; ?>
                         <?php endforeach; ?>
                     </select>
                 </div>

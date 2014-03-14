@@ -12,4 +12,6 @@ require_once('View/Json.php');
 require_once('View/Helper/String.php');
 require_once('View/Helper/Messenger.php');
 require_once('View/Helper/Paginator.php');
+require_once('View/Helper/Html/Helper.php');
+require_once('View/Helper/Html/Categorias.php');
 require_once('Database/Pdo.php');

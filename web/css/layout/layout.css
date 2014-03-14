@@ -38,3 +38,16 @@ body {
 .blockquote-box.blockquote-danger .square{background-color:#D9534F;color:#FFF;}
 .blockquote-box.blockquote-danger a{color:#D9534F;}
 .blockquote-box.blockquote-danger ul li{color:#D9534F;}
+
+optgroup {
+    font-size: 14px;
+    text-indent: 15px;
+}
+optgroup {
+    padding: 5px;
+    border-top: 1px solid #ddd;
+}
+optgroup option {
+    text-indent: 30px;
+    padding: 5px;
+}

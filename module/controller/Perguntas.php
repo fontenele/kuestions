@@ -15,7 +15,7 @@ Class Perguntas extends Controller {
     public function novaPergunta() {
         try {
             $serviceCategorias = new \Kuestions\Service\Categorias();
-            $this->view->categorias = $serviceCategorias->fetchAll();
+            //$this->view->categorias = $serviceCategorias->fetchAll();
 
             return $this->view;
         } catch (\Exception $ex) {

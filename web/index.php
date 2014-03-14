@@ -49,17 +49,19 @@ Class System {
         \set_include_path(\get_include_path() . PATH_SEPARATOR . \dirname(__DIR__));
         \spl_autoload_register(function($className) {
             $arrClass = \explode('\\', $className);
-            $realPath = '';
-            switch ($arrClass[1]) {
-                case 'Controller':
-                    $realPath = APP_PATH . 'module/controller/' . $arrClass[2] . '.php';
-                    break;
-                case 'Service':
-                    $realPath = APP_PATH . 'module/service/' . $arrClass[2] . '.php';
-                    break;
-                case 'Model':
-                    $realPath = APP_PATH . 'module/model/' . $arrClass[2] . '.php';
-                    break;
+            $realPath = null;
+            if (isset($arrClass[1])) {
+                switch ($arrClass[1]) {
+                    case 'Controller':
+                        $realPath = APP_PATH . 'module/controller/' . $arrClass[2] . '.php';
+                        break;
+                    case 'Service':
+                        $realPath = APP_PATH . 'module/service/' . $arrClass[2] . '.php';
+                        break;
+                    case 'Model':
+                        $realPath = APP_PATH . 'module/model/' . $arrClass[2] . '.php';
+                        break;
+                }
             }
             if ($realPath) {
                 require_once($realPath);
@@ -146,46 +148,50 @@ Class System {
     }
 
     public static function callAction($controller, $action, $request) {
-        self::$layout = new \Kuestions\Lib\View\Html('layout/' . self::$config['system']['view']['layout']);
-        self::$layout->success = Lib\View\Helper\Messenger::getSuccess();
-        self::$layout->error = Lib\View\Helper\Messenger::getError();
-        self::$layout->userLogged = self::$logged;
+        try {
+            self::$layout = new \Kuestions\Lib\View\Html('layout/' . self::$config['system']['view']['layout']);
+            self::$layout->success = Lib\View\Helper\Messenger::getSuccess();
+            self::$layout->error = Lib\View\Helper\Messenger::getError();
+            self::$layout->userLogged = self::$logged;
 
-        $arrController = explode('\\', $controller);
-        $actionDashed = Lib\View\Helper\String::camelToDash($action);
-        $pathCssJs = "%s/module/{$arrController[2]}/{$actionDashed}.%s";
+            $arrController = explode('\\', $controller);
+            $actionDashed = Lib\View\Helper\String::camelToDash($action);
+            $pathCssJs = "%s/module/{$arrController[2]}/{$actionDashed}.%s";
 
-        $js = array();
-        $css = array();
+            $js = array();
+            $css = array();
 
-        if (file_exists(sprintf(APP_PATH . 'web/' . $pathCssJs, 'css', 'css'))) {
-            $css[] = sprintf(self::$basePath . $pathCssJs, 'css', 'css');
-        }
+            if (file_exists(sprintf(APP_PATH . 'web/' . $pathCssJs, 'css', 'css'))) {
+                $css[] = sprintf(self::$basePath . $pathCssJs, 'css', 'css');
+            }
 
-        if (file_exists(sprintf(APP_PATH . 'web/' . $pathCssJs, 'js', 'js'))) {
-            $js[] = sprintf(self::$basePath . $pathCssJs, 'js', 'js');
-        }
+            if (file_exists(sprintf(APP_PATH . 'web/' . $pathCssJs, 'js', 'js'))) {
+                $js[] = sprintf(self::$basePath . $pathCssJs, 'js', 'js');
+            }
 
-        self::$layout->css = $css;
-        self::$layout->js = $js;
+            self::$layout->css = $css;
+            self::$layout->js = $js;
 
-        $controller = '\\' . $controller;
+            $controller = '\\' . $controller;
 
-        // Instance controller
-        $obj = new $controller($action, $request);
+            // Instance controller
+            $obj = new $controller($action, $request);
 
-        // Call action
-        $view = $obj->$action($request);
+            // Call action
+            $view = $obj->$action($request);
 
-        if ($view instanceof Lib\View\Json) {
-            // Render Json output
-            echo $view->render();
-        } else {
-            // Set content var
-            self::$layout->content = $view->render();
+            if ($view instanceof Lib\View\Json) {
+                // Render Json output
+                echo $view->render();
+            } else {
+                // Set content var
+                self::$layout->content = $view->render();
 
-            // Render layout
-            echo self::$layout->render();
+                // Render layout
+                echo self::$layout->render();
+            }
+        } catch (\Exception $ex) {
+            xd($ex);
         }
     }
 

@@ -14,6 +14,7 @@ class Categorias {
                 $categorias[$row['pai']]['filhos'][$row['cod']] = $row;
             } else {
                 $categorias[$row['cod']] = $row;
+                $categorias[$row['cod']]['filhos'] = array();
             }
         }
         
