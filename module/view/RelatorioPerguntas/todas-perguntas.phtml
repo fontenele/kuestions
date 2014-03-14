@@ -1,10 +1,5 @@
 <div class="input-group hidden" id="categoria-template">
-    <select class="form-control">
-        <option value="">Selecione</option>
-        <?php foreach ($this->categorias as $categoria): ?>
-            <option value="<?php echo $categoria['cod'] ?>"><?php echo $categoria['nome'] ?></option>
-        <?php endforeach; ?>
-    </select>
+    <?php echo $this->categorias() ?>
     <div class="input-group-btn">
         <button class="btn btn-success btn-save-categoria"><span class="glyphicon glyphicon-save"></span></button>
     </div>
@@ -17,7 +12,7 @@
             <div class="form-group">
                 <label for="categoria" class="col-sm-2 control-label">Categoria</label>
                 <div class="col-sm-4">
-                    <?php echo $this->categorias('categorias', '', false) ?>
+                    <?php echo $this->categorias('categoria', '', false) ?>
                 </div>
             </div>
             <div class="form-group">
