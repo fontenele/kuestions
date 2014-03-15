@@ -9,12 +9,12 @@ Class Categorias extends Controller {
     public $service;
     
     public function init() {
-        \Kuestions\System::$layout->topItemAtual = 'painel';
         $this->service = new \Kuestions\Service\Categorias();
     }
 
     public function novaCategoria() {
         try {
+            \Kuestions\System::$layout->topItemAtual = 'painel';
             $this->view->categorias = $this->service->fetchAll();
             
             return $this->view;

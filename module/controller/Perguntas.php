@@ -11,9 +11,28 @@ Class Perguntas extends Controller {
     public function init() {
         $this->service = new \Kuestions\Service\Perguntas();
     }
+    
+    public function todasPerguntas() {
+        try {
+            \Kuestions\System::$layout->topItemAtual = 'relatorios';
+            $serviceCategorias = new \Kuestions\Service\Categorias();
+            $this->view->categorias = $serviceCategorias->fetchAll();
+
+            $paginator = new \Kuestions\Lib\View\Helper\Paginator('#fm-perguntas', $this->request->get->getArrayCopy());
+
+            $servicePerguntas = new \Kuestions\Service\Perguntas();
+            $paginator->setRows($servicePerguntas->fetchAll($paginator));
+            $this->view->paginator = $paginator;
+
+            return $this->view;
+        } catch (\Exception $ex) {
+            xd($ex);
+        }
+    }
 
     public function novaPergunta() {
         try {
+            \Kuestions\System::$layout->topItemAtual = 'painel';
             $serviceCategorias = new \Kuestions\Service\Categorias();
             //$this->view->categorias = $serviceCategorias->fetchAll();
 
