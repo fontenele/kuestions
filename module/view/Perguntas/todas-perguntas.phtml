@@ -5,7 +5,7 @@
     </div>
 </div>
 <div class="panel panel-default">
-    <div class="panel-heading">Todas as Perguntas</div>
+    <div class="panel-heading">Relatório de Perguntas <a href="/perguntas/nova-pergunta" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Nova Pergunta</a></div>
     <div class="panel-body">
         <form class="form-horizontal" id="fm-perguntas" role="form">
             <?php echo $this->paginator->getInputHidden() ?>
@@ -79,8 +79,8 @@
                             <?php endfor; ?>
                             <input type="hidden" class="sr-only" name="nivel" />
                         </td>
-                        <td>
-                            <button class="btn-change-status btn btn-<?php echo $row['status'] == 2 ? 'success' : 'danger' ?>" data-cod="<?php echo $row['cod'] ?>" data-status="<?php echo $row['status'] ?>">
+                        <td class="text-center">
+                            <button class="btn-change-status btn btn-sm btn-<?php echo $row['status'] == 2 ? 'success' : 'danger' ?>" data-cod="<?php echo $row['cod'] ?>" data-status="<?php echo $row['status'] ?>">
                                 <span class="glyphicon glyphicon-thumbs-<?php echo $row['status'] == 2 ? 'up' : 'down' ?>"></span>
                             </button>
                         </td>

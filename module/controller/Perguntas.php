@@ -6,24 +6,21 @@ use Kuestions\Module\Controller;
 
 Class Perguntas extends Controller {
 
+    /**
+     * @var \Kuestions\Service\Perguntas
+     */
     public $service;
 
     public function init() {
         $this->service = new \Kuestions\Service\Perguntas();
     }
-    
+
     public function todasPerguntas() {
         try {
             \Kuestions\System::$layout->topItemAtual = 'relatorios';
-            $serviceCategorias = new \Kuestions\Service\Categorias();
-            $this->view->categorias = $serviceCategorias->fetchAll();
-
             $paginator = new \Kuestions\Lib\View\Helper\Paginator('#fm-perguntas', $this->request->get->getArrayCopy());
-
-            $servicePerguntas = new \Kuestions\Service\Perguntas();
-            $paginator->setRows($servicePerguntas->fetchAll($paginator));
+            $paginator->setRows($this->service->fetchAll($paginator));
             $this->view->paginator = $paginator;
-
             return $this->view;
         } catch (\Exception $ex) {
             xd($ex);
@@ -33,9 +30,6 @@ Class Perguntas extends Controller {
     public function novaPergunta() {
         try {
             \Kuestions\System::$layout->topItemAtual = 'painel';
-            $serviceCategorias = new \Kuestions\Service\Categorias();
-            //$this->view->categorias = $serviceCategorias->fetchAll();
-
             return $this->view;
         } catch (\Exception $ex) {
             xd($ex);
@@ -62,7 +56,7 @@ Class Perguntas extends Controller {
                 return $this->view;
             } else {
                 $serviceAlternativa = new \Kuestions\Service\Alternativa();
-                
+
                 $rowAlternativa1 = ['descricao' => $row['alternativa1']];
                 $serviceAlternativa->save($rowAlternativa1);
                 $row['alternativa1'] = $rowAlternativa1['cod'];
@@ -78,16 +72,16 @@ Class Perguntas extends Controller {
                 $rowAlternativa5 = ['descricao' => $row['alternativa5']];
                 $serviceAlternativa->save($rowAlternativa5);
                 $row['alternativa5'] = $rowAlternativa5['cod'];
-                
-                $row['correta'] =  $row['alternativa' . $row['correta']];
+
+                $row['correta'] = $row['alternativa' . $row['correta']];
                 $salvou = $this->service->save($row);
-                
+
                 if ($salvou) {
                     \Kuestions\Lib\View\Helper\Messenger::success('Pergunta salva com sucesso.');
                 } else {
                     \Kuestions\Lib\View\Helper\Messenger::success('Erro ao tentar salvar Pergunta.');
                 }
-                
+
                 $this->redirect('perguntas/nova-pergunta');
             }
         } catch (\Exception $ex) {

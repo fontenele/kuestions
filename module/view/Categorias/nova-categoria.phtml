@@ -6,7 +6,8 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="pai">Pai</label>
                 <div class="col-sm-4">
-                    <select name="pai" class="form-control" required>
+                    <?php echo $this->categorias('pai', null, false, true) ?>
+                    <!--select name="pai" class="form-control" required>
                         <option value="0">Nenhum</option>
                         <?php foreach ($this->categorias as $categoria): ?>
                             <option value="" class="divider disabled" disabled></option>
@@ -15,7 +16,7 @@
                                 <option value="" class="disabled" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $filho['nome'] ?></option>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
-                    </select>
+                    </select-->
                 </div>
             </div>
 

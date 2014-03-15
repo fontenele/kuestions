@@ -18,7 +18,7 @@ class Perguntas {
                 foreach ($paginator->criteria as $criteria => $value) {
                     if (trim($value)) {
                         if ($criteria == 'descricao') {
-                            $where.= " AND p.{$criteria} LIKE '%{$value}%'";
+                            $where.= " AND UPPER(p.{$criteria}) LIKE UPPER('%{$value}%')";
                         } else {
                             $where.= " AND p.{$criteria} = {$value}";
                         }
@@ -144,6 +144,20 @@ DML;
             return $stmt->execute(array(
                         $row['cod']
             ));
+        } catch (\Exception $ex) {
+            xd($ex);
+        }
+    }
+    
+    public function removerCategorias($categoria) {
+        try {
+            $dml = <<<DML
+                    UPDATE perguntas
+                        SET categoria = NULL
+                    WHERE categoria = ?
+DML;
+            $stmt = \Kuestions\System::$db->prepare($dml);
+            return $stmt->execute(array($categoria));
         } catch (\Exception $ex) {
             xd($ex);
         }

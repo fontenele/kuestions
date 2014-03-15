@@ -12,7 +12,7 @@ class Paginator {
     /**
      * @var integer
      */
-    public $active = 1;
+    public $active = 0;
 
     /**
      * @var integer
@@ -80,8 +80,9 @@ HTML;
 
     public function setRows($rows = array()) {
         $this->rows = $rows;
-        if (count($rows) && isset($rows[0]) && isset($rows[0]['total'])) {
-            $this->totalItems = $rows[0]['total'];
+        if (count($rows) && isset($rows[array_keys($rows)[0]]) && isset($rows[array_keys($rows)[0]]['total'])) {
+            $this->active = $this->active == 0 ? 1 : $this->active;
+            $this->totalItems = $rows[array_keys($rows)[0]]['total'];
 
             $totalPages = round($this->totalItems / $this->rowPerPage);
             if ($totalPages * $this->rowPerPage < $this->totalItems) {

@@ -13,5 +13,10 @@ class Perguntas {
         $model = new \Kuestions\Model\Perguntas();
         return $model->save($row);
     }
+    
+    public function removerCategorias($categoria) {
+        $model = new \Kuestions\Model\Perguntas();
+        return $model->removerCategorias($categoria);
+    }
 
 }

@@ -27,7 +27,11 @@
                     <li class="<?php echo $this->topItemAtual == 'relatorios' ? 'active' : '' ?> dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/perguntas/todas-perguntas"><span class="glyphicon glyphicon-list-alt"></span> Todas as Perguntas</a></li>
+                            <li role="presentation" class="dropdown-header">Perguntas</li>
+                            <li><a href="/perguntas/todas-perguntas"><span class="glyphicon glyphicon-list-alt"></span> Relatório de Perguntas</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">Categorias</li>
+                            <li><a href="/categorias/todas-categorias"><span class="glyphicon glyphicon-list-alt"></span> Relatório de Categorias</a></li>
                         </ul>
                     </li>
                 </ul>

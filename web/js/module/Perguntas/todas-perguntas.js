@@ -3,7 +3,7 @@ TodasPerguntas = {
         'descricao': '<div class="input-group"><input type="text" class="form-control" /><span class="input-group-btn"><button class="btn btn-success btn-save-descricao"><span class="glyphicon glyphicon-save"></span></button></span></div>',
         'alternativa': '<div class="input-group"><input type="text" class="form-control" /><span class="input-group-btn"><button class="btn btn-success btn-save-alternativa"><span class="glyphicon glyphicon-save"></span></button></span></div>'
     }
-}
+};
 
 $(document).ready(function() {
 
@@ -40,8 +40,12 @@ $(document).ready(function() {
     $(document).on('keyup', '.categoria-edit .form-control', function(e) {
         if (e.keyCode == 27) {
             var $td = $(this).parents('.categoria-edit');
-            var desc = $td.find('.form-control option:selected').text();
-            $td.html(desc);
+            if ($td.find('.form-control option:selected').val()) {
+                var desc = $td.find('.form-control option:selected').text();
+                $td.html(desc);
+            } else {
+                $td.html('');
+            }
             $td.data('edit', 'hidden');
         } else if (e.keyCode == 13) {
             $(this).siblings('.input-group-btn').find('.btn-save-categoria').trigger('click');
@@ -136,7 +140,6 @@ $(document).ready(function() {
                 $that.parents('tr').addClass('success');
             }
         }, 'json');
-        console.log($(this).data('cod'), $(this).data('status'));
     });
 
     $('.nivel').on('click', function() {
